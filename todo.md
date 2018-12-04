@@ -5,12 +5,12 @@
 	- ~~1: Normalize the inputs~~
 	- 2: A modified loss function
 	- 3: Use a spherical Z
-	- ~~4: BatchNorm~
+	- ~~4: BatchNorm~~
 	- ~~5: Avoid Sparse Gradients: ReLU, MaxPool~~
 	- 6: Use Soft and Noisy Labels
 	- 7: DCGAN / Hybrid Models
 	- 8: Use stability tricks from RL
-	- 9: ~~Use the ADAM Optimizer~
+	- 9: ~~Use the ADAM Optimizer~~
 	- 10: Track failures early
 	- 11: Dont balance loss via statistics (unless you have a good reason to)
 	- 12: If you have labels, use them
