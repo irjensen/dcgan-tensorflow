@@ -1,2 +1,2 @@
-# dcgan-tensorflow
-An implementation of deep convolutional generative adverasial networks using tensorflow.
+## DCGANs in [TensorFlow](https://github.com/tensorflow/tensorflow)
+This repository is intended to be a simple example implementation of Deep Convolutional Generative Adversarial Networks (DCGANs) using TensorFlow. The model architecture used is based on the work of [Alec Radford, Luke Metz, Soumith Chintala](https://arxiv.org/abs/1511.06434), and implements the tricks recommended by [southmith/ganhacks](https://github.com/soumith/ganhacks)
