@@ -5,6 +5,6 @@ This repository is intended to be a simple example implementation of Deep Convol
 The model can generate never before seen faces by training on a dataset of images of faces. Training the model for 5 epochs on the [CelebA dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html) yeilds the following results:
 - after 1 epoch
 <p align = 'center'>
-<img src = 'examples/epoch1.png'>
+<img src = 'examples/epoch1.png' height = '246px'>
 </p>
 
