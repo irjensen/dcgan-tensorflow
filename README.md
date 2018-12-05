@@ -29,8 +29,8 @@ The model can generate never before seen faces by training on a dataset of image
 Download your dataset of choice and extract it to `data/` or another directory of your choosing.
 
 ### Training The Network
-Use `train.py` to train the model on your dataset. If the images in your dataset are not all the same size or are too large, you can use the `--crop-width`, `--crop-height`, `--rescale-width`, and `--rescale-height` commands to reshape the images as they are fed to the network. **Note:** the model can only be trained with images that have side dimensions which are divisible by 16. You can specify a directory with `--sample-dir` to generate a sample grid of images as the training takes place.
-Example usage:
+Use `train.py` to train the model on your dataset. If the images in your dataset are not all the same size or are too large, you can use the `--crop-width`, `--crop-height`, `--rescale-width`, and `--rescale-height` commands to reshape the images as they are fed to the network. **Note:** the model can only be trained with images that have side dimensions which are divisible by 16. You can specify a directory with `--sample-dir` to generate a sample grid of images as the training takes place. [More details here](docs.md).
+- Example usage:
 ```
 python3 train.py --checkpoint-dir ./ckpt/ \
   --data-dir ./data/img_align_celeba/ \
@@ -42,8 +42,8 @@ python3 train.py --checkpoint-dir ./ckpt/ \
 ```
 
 ### Generating Images
-Use `generate.py` to generate images after the model has been trained. You must use `--checkpoint` to point the generator at a checkpoint directory saved during training. **The checkpoint directory must include the .meta file as well as the checkpoint file**. Use `output-dir` to specify where to place the generated images. Use `--num-images` to specify the quantity of images to generate and `--name` to name them (dont include a file extension). You can also use `--grid-size` generate multiple samples per image and arrange them in a square grid. 
-Example usage:
+Use `generate.py` to generate images after the model has been trained. You must use `--checkpoint` to point the generator at a checkpoint directory saved during training. **The checkpoint directory must include the .meta file as well as the checkpoint file**. Use `output-dir` to specify where to place the generated images. Use `--num-images` to specify the quantity of images to generate and `--name` to name them (dont include a file extension). You can also use `--grid-size` generate multiple samples per image and arrange them in a square grid. [More details here](docs.md).
+- Example usage:
 ```
 python3 generate.py --checkpoint ./ckpt/ \
   --output-dir ./output/ \
