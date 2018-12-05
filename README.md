@@ -29,7 +29,7 @@ The model can generate never before seen faces by training on a dataset of image
 Download your dataset of choice and extract it to `data/` or another directory of your choosing.
 
 ### Training The Network
-use `train.py` to train the model on your dataset. If the images in your dataset are not all the same size or are too large, you can use the `--crop-width`, `--crop-height`, `--rescale-width`, and `--rescale-height` commands to reshape the images as they are fed to the network. **Note:** the model can only be trained with images that have side dimensions which are divisible by 16. You can specify a directory with `--sample-dir` to generate a sample grid of images as the training takes place.
+Use `train.py` to train the model on your dataset. If the images in your dataset are not all the same size or are too large, you can use the `--crop-width`, `--crop-height`, `--rescale-width`, and `--rescale-height` commands to reshape the images as they are fed to the network. **Note:** the model can only be trained with images that have side dimensions which are divisible by 16. You can specify a directory with `--sample-dir` to generate a sample grid of images as the training takes place.
 Example usage:
 ```
 python3 train.py --checkpoint-dir ./ckpt/ \
@@ -42,7 +42,7 @@ python3 train.py --checkpoint-dir ./ckpt/ \
 ```
 
 ### Generating Images
-use `generate.py` to generate images after the model has been trained. You must use `--checkpoint` to point the generator at a checkpoint directory saved during training. **The checkpoint directory must include the .meta file as well as the checkpoint file**. Use `output-dir` to specify where to place the generated images. Use `--num-images` to specify the quantity of images to generate and `--name` to name them (dont include a file extension). You can also use `--grid-size` generate multiple samples per image and arrange them in a square grid. 
+Use `generate.py` to generate images after the model has been trained. You must use `--checkpoint` to point the generator at a checkpoint directory saved during training. **The checkpoint directory must include the .meta file as well as the checkpoint file**. Use `output-dir` to specify where to place the generated images. Use `--num-images` to specify the quantity of images to generate and `--name` to name them (dont include a file extension). You can also use `--grid-size` generate multiple samples per image and arrange them in a square grid. 
 Example usage:
 ```
 python3 generate.py --checkpoint ./ckpt/ \
@@ -52,16 +52,20 @@ python3 generate.py --checkpoint ./ckpt/ \
   --grid-size 5
 ```
 ### Requirements
-the following must be installed:
+The following must be installed:
 - Python 3.6+
 - Pillow 4.0.0
 - Numpy 1.15.4
 - TensorFlow 1.0.0
-- the packages necessary to run TensorFlow on your GPU
-  - information on how to run TensorFlow on GPU can be found [here](https://www.tensorflow.org/install/)
+- The packages necessary to run TensorFlow on your GPU
+  - Information on how to run TensorFlow on GPU can be found [here](https://www.tensorflow.org/install/)
   
 Alternatively, if you have Anaconda isntalled, you can use the included `requirements.yml` file to create an Anaconda environment with the following command:
 ```
 conda env create -f requirements.yml
+```
+Then activate the environment with:
+```
+source activate dcgan
 ```
 
