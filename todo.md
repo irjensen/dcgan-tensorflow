@@ -2,6 +2,7 @@
 - add ability to resume training from checkpoint
 - address performance issue in generate.py
 - add support for arbitrary dataset resolutions
+- add option to maintain constant z across samples 
 - incorporate tricks recomended in soumith/ganhacks:
 	- ~~1: Normalize the inputs~~
 	- 2: A modified loss function
