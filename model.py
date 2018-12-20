@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 import math
 
 DROPOUT = 0.5
@@ -129,4 +130,12 @@ def model_opt(d_loss, g_loss, learning_rate, beta1):
     return d_train_opt, g_train_opt
 
 
-    
+def generate_z(batch_size, z_dim, seed=None):
+    np.random.seed(seed)
+    x = np.random.normal(size = [batch_size, z_dim])
+    # if the norm is very small then reject and try again
+    norm = np.sqrt(np.sum(np.square(x)))
+    if norm < 1e-5:
+        return generate_z(batch_size, z_dim)
+    x = x / norm
+    return x

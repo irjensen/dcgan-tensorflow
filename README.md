@@ -26,7 +26,7 @@ The model can generate never before seen faces by training on a dataset of image
 
 ## Documentation
 ### Download Your Dataset
-Download your dataset of choice and extract it to `data/` or another directory of your choosing.
+Download your dataset of choice and extract it to `data/` or another directory of your choosing. You can use `bash setup-celeba.sh` to download and extract the Celeb-A dataset automatically.
 
 ### Training The Network
 Use `train.py` to train the model on your dataset. If the images in your dataset are not all the same size or not a desired shape/size, you can use the `--crop-width`, `--crop-height`, `--rescale-width`, and `--rescale-height` commands to reshape the images as they are fed to the network. **Note:** the model can only be trained with images that have side dimensions which are divisible by 16. You can specify a directory with `--sample-dir` to generate a sample grid of images as the training takes place. [More details here](docs.md).
@@ -34,11 +34,12 @@ Use `train.py` to train the model on your dataset. If the images in your dataset
 ```
 python3 train.py --checkpoint-dir ./ckpt/ \
   --data-dir ./data/img_align_celeba/ \
-  --crop-width 108 \
-  --crop-height 108 \
-  --rescale-width 32 \
-  --rescale-height 32 \
-  --sample-dir ./samples/
+  --crop-width 110 \
+  --crop-height 110 \
+  --rescale-width 64 \
+  --rescale-height 64 \
+  --sample-dir ./samples/ \
+  --constant_z
 ```
 
 ### Generating Images
@@ -60,7 +61,7 @@ The following must be installed:
 - The packages necessary to run TensorFlow on your GPU
   - Information on how to run TensorFlow on GPU can be found [here](https://www.tensorflow.org/install/)
   
-Alternatively, if you have Anaconda isntalled, you can use the included `requirements.yml` file to create an Anaconda environment with the following command:
+Alternatively, if you have Anaconda installed, you can use the included `requirements.yml` file to create an Anaconda environment with the following command:
 ```
 conda env create -f requirements.yml
 ```

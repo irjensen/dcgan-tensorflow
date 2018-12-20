@@ -12,6 +12,7 @@
 - `--batch-size` Batch size for training. Default:`64`
 - `--learning-rate` Learning rate for training. Default:`2e-4`
 - `--z-dim` Dimension of z vector used to generate images. Default: `100`
+- `--constant-z` Use the same z for generation of samples during training
 
 ## generate.py
 `generate.py` loads a saved model checkpoint from disk and generates random images

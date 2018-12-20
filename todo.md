@@ -1,12 +1,12 @@
 - add support for grayscale images.
 - add ability to resume training from checkpoint
 - address performance issue in generate.py
-- add support for arbitrary dataset resolutions
-- add option to maintain constant z across samples 
+- add support for arbitrary training image resolutions
+- ~~add option to use constant z across training samples~~ 
 - incorporate tricks recomended in soumith/ganhacks:
 	- ~~1: Normalize the inputs~~
 	- 2: A modified loss function
-	- 3: Use a spherical Z
+	- ~~3: Use a spherical Z~~
 	- ~~4: BatchNorm~~
 	- ~~5: Avoid Sparse Gradients: ReLU, MaxPool~~
 	- 6: Use Soft and Noisy Labels
@@ -18,4 +18,4 @@
 	- 12: If you have labels, use them
 	- 13: Add noise to inputs, decay over time
 	- 16: Discrete variables in Conditional GANs
-	- 17: Use Dropouts in G in both train and test phase
+	- ~~17: Use Dropouts in G in both train and test phase~~

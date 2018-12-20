@@ -11,7 +11,6 @@ NUM_EPOCHS = 5
 BATCH_SIZE = 64
 Z_DIM = 100
 BETA1 = 0.5
-CHECKPOINT_ITERATIONS = 100
 
 def build_parser():
     parser = ArgumentParser()
@@ -60,16 +59,15 @@ def build_parser():
     parser.add_argument('--z-dim', type=int,
                         dest='z_dim', help='generator z-dimension',
                         metavar='Z_DIM', default=Z_DIM)
+    
+    parser.add_argument('--constant-z', help='use the same z for all training samples',
+                        dest='constant_z', action="store_true")
     return parser
     
 
-def generate_z(batch_size, z_dim):
-    
-    return np.random.uniform(-1.0, 1.0, size=(batch_size, z_dim))
-
-def get_sample(sess, input_z, data_shape):
+def get_sample(sess, input_z, data_shape, seed=None):
     z_dim = input_z.get_shape()[-1]
-    sample_z = generate_z(25, z_dim)
+    sample_z = generate_z(25, z_dim, seed)
     
     sample_images = sess.run(
         generator(input_z, data_shape[1:], is_train=False), 
@@ -83,7 +81,11 @@ def get_sample(sess, input_z, data_shape):
 
     
 
-def train(epoch_count, batch_size, z_dim, learning_rate, get_batches, data_shape, sample_dir, ckpt_dir):
+def train(epoch_count, batch_size, z_dim, learning_rate, get_batches, data_shape, sample_dir, ckpt_dir, constant_z):
+    if constant_z:
+        seed = np.random.random()
+    else:
+        seed = None
     
     input_real, input_z, lr = model_inputs(data_shape[1], 
                                            data_shape[2], 
@@ -137,7 +139,7 @@ def train(epoch_count, batch_size, z_dim, learning_rate, get_batches, data_shape
                 
         # print when finished training
         if sample_dir:
-            samples = get_sample(sess, input_z, data_shape)
+            samples = get_sample(sess, input_z, data_shape, seed)
             samples.save(os.path.join(sample_dir, 'sample_{}.png'.format(batch_i)))
         train_loss_d = d_loss.eval({input_z: batch_z, input_real: batch_images})
         train_loss_g = g_loss.eval({input_z: batch_z})
@@ -214,7 +216,7 @@ def main():
                                
     with tf.Graph().as_default():
         train(opt.epochs, opt.batch_size, opt.z_dim, opt.learning_rate, dataset.get_batches,
-              dataset.shape, opt.sample_dir, opt.checkpoint_dir)
+              dataset.shape, opt.sample_dir, opt.checkpoint_dir, opt.constant_z)
         
 
 if __name__ == '__main__':

@@ -38,25 +38,6 @@ def build_parser():
     return parser
 
 
-def generate_z(batch_size, z_dim, seed=None):
-    np.random.seed(seed)
-    #return np.random.uniform(-1.0, 1.0, size=(batch_size, z_dim))
-    return np.ones([batch_size, z_dim])*-1.0
-
-    z_dim = input_z.get_shape()[-1]
-    sample_z = generate_z(25, z_dim)
-    
-    sample_images = sess.run(
-        generator(input_z, data_shape[1:], is_train=False), 
-        feed_dict = {input_z: sample_z})
-    
-    square_images = sample_images.reshape([5, 5, data_shape[1], data_shape[2], data_shape[3]])
-    square_images = square_images.swapaxes(1, 2)
-    square_images = square_images.reshape([5*data_shape[1], 5*data_shape[2], data_shape[3]])
-    #square_images = 255. * (square_images + 1.) / 2.
-    return Image.fromarray(square_images, "RGB")
-
-
 def get_sample(sess, input_z, data_shape, size, seed=None):
     z_dim = input_z.get_shape()[-1]
     sample_z = generate_z(size*size, z_dim)
