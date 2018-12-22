@@ -65,9 +65,10 @@ def build_parser():
     return parser
     
 
-def get_sample(sess, input_z, data_shape, seed=None):
+def get_sample(sess, input_z, data_shape, sample_z=None):
     z_dim = input_z.get_shape()[-1]
-    sample_z = generate_z(25, z_dim, seed)
+    if sample_z is None:
+        sample_z = generate_z(25, z_dim)
     
     sample_images = sess.run(
         generator(input_z, data_shape[1:], is_train=False), 
@@ -83,9 +84,9 @@ def get_sample(sess, input_z, data_shape, seed=None):
 
 def train(epoch_count, batch_size, z_dim, learning_rate, get_batches, data_shape, sample_dir, ckpt_dir, constant_z):
     if constant_z:
-        seed = np.random.random()
+        sample_z = generate_z(25, z_dim)
     else:
-        seed = None
+        sample_z = None
     
     input_real, input_z, lr = model_inputs(data_shape[1], 
                                            data_shape[2], 
@@ -94,7 +95,6 @@ def train(epoch_count, batch_size, z_dim, learning_rate, get_batches, data_shape
     d_loss, g_loss = model_loss(input_real, input_z, data_shape[1:])
     d_opt, g_opt = model_opt(d_loss, g_loss, lr, BETA1)
     
-    batch_i = 0
     d_loss_data = []
     g_loss_data = []
     with tf.Session() as sess:
@@ -103,6 +103,7 @@ def train(epoch_count, batch_size, z_dim, learning_rate, get_batches, data_shape
               np.sum([np.prod(v.get_shape().as_list()) for v in tf.trainable_variables()]))
         
         for epoch_i in range(epoch_count):
+            batch_i = 0
             for batch_images in get_batches(batch_size, 'RGB'): 
                 batch_z = generate_z(batch_size, z_dim) 
                 
@@ -119,13 +120,14 @@ def train(epoch_count, batch_size, z_dim, learning_rate, get_batches, data_shape
                 # display losses and generated output every 100 batches
                 if batch_i % 100 == 0:
                     if sample_dir:
-                        samples = get_sample(sess, input_z, data_shape)
-                        samples.save(os.path.join(sample_dir, 'sample_{}.png'.format(batch_i))) 
+                        samples = get_sample(sess, input_z, data_shape, sample_z)
+                        samples.save(os.path.join(sample_dir, 'sample_{:02d}_{:04d}.png'.format(epoch_i+1, batch_i))) 
                     # print training loss
                     print("Epoch {}/{}...".format(epoch_i+1, epoch_count),
                           "Batch {}/{} ...".format(batch_i, data_shape[0]//batch_size),
                           "Discriminator Loss: {:.4f}...".format(train_loss_d),
-                          "Generator Loss: {:.4f}".format(train_loss_g))  
+                          "Generator Loss: {:.4f}".format(train_loss_g),
+                          flush=True)  
                     
                     # save a checkpoint
                     tf.add_to_collection("vars", input_real)
@@ -139,8 +141,8 @@ def train(epoch_count, batch_size, z_dim, learning_rate, get_batches, data_shape
                 
         # print when finished training
         if sample_dir:
-            samples = get_sample(sess, input_z, data_shape, seed)
-            samples.save(os.path.join(sample_dir, 'sample_{}.png'.format(batch_i)))
+            samples = get_sample(sess, input_z, data_shape, sample_z)
+            samples.save(os.path.join(sample_dir, 'sample_{:02d}_{:04d}.png'.format(epoch_count, batch_i)))
         train_loss_d = d_loss.eval({input_z: batch_z, input_real: batch_images})
         train_loss_g = g_loss.eval({input_z: batch_z})
         print("Finished training!",
