@@ -102,15 +102,33 @@ def model_loss(input_real, input_z, out_shape):
     d_model_real, d_logits_real = discriminator(input_real, reuse=False)
     d_model_fake, d_logits_fake = discriminator(fake_images, reuse=True)
     
+    # use label smoothing
+    d_labels_real = tf.ones_like(d_model_real)
+    d_labels_real += tf.random.uniform(tf.shape(d_labels_real), minval=-0.3, maxval=0)
+    
+    d_labels_fake = tf.zeros_like(d_model_fake)
+    d_labels_fake += tf.random.uniform(tf.shape(d_labels_fake), minval=0, maxval=0.3)
+    
+    g_labels_fake = tf.ones_like(d_model_fake)
+    g_labels_fake += tf.random.uniform(tf.shape(g_labels_fake), minval=-0.3, maxval=0)
+    
+    # randomly flip 5% of the labels for the discriminator
+    mask_real = tf.random.uniform(tf.shape(d_labels_real), minval=0., maxval=20.)
+    mask_real = tf.math.floordiv(mask_real, 19) 
+    mask_fake = tf.random.uniform(tf.shape(d_labels_fake), minval=0., maxval=20.)
+    mask_fake = tf.math.floordiv(mask_fake, 19) 
+    d_labels_real -= (2. * (d_labels_real - 0.5)) * mask_real
+    d_labels_fake -= (2. * (d_labels_fake - 0.5)) * mask_fake
+    
     d_loss = tf.reduce_mean(
         tf.nn.sigmoid_cross_entropy_with_logits(logits=d_logits_real,
-                                                labels=tf.ones_like(d_model_real)))
+                                                labels=d_labels_real))
     d_loss += tf.reduce_mean(
         tf.nn.sigmoid_cross_entropy_with_logits(logits=d_logits_fake, 
-                                                labels=tf.zeros_like(d_model_fake))) 
+                                                labels=d_labels_fake)) 
     g_loss = tf.reduce_mean(
         tf.nn.sigmoid_cross_entropy_with_logits(logits=d_logits_fake, 
-                                                labels=tf.ones_like(d_model_fake)))
+                                                labels=g_labels_fake))
     
     return d_loss, g_loss
 
@@ -130,12 +148,6 @@ def model_opt(d_loss, g_loss, learning_rate, beta1):
     return d_train_opt, g_train_opt
 
 
-def generate_z(batch_size, z_dim, seed=None):
-    np.random.seed(seed)
+def generate_z(batch_size, z_dim):
     x = np.random.normal(size = [batch_size, z_dim])
-    # if the norm is very small then reject and try again
-    norm = np.sqrt(np.sum(np.square(x)))
-    if norm < 1e-5:
-        return generate_z(batch_size, z_dim)
-    x = x / norm
     return x
