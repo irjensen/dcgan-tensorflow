@@ -40,7 +40,7 @@ def build_parser():
 
 def get_sample(sess, input_z, data_shape, size, seed=None):
     z_dim = input_z.get_shape()[-1]
-    sample_z = generate_z(size*size, z_dim)
+    sample_z = generate_z(size*size, z_dim, seed=seed)
     
     sample_images = sess.run(
         generator(input_z, data_shape[1:], is_train=False), 
