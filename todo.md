@@ -9,7 +9,7 @@
 	- ~~3: Use a spherical Z~~
 	- ~~4: BatchNorm~~
 	- ~~5: Avoid Sparse Gradients: ReLU, MaxPool~~
-	- 6: Use Soft and Noisy Labels
+	- ~~6: Use Soft and Noisy Labels~~
 	- 7: DCGAN / Hybrid Models
 	- 8: Use stability tricks from RL
 	- 9: ~~Use the ADAM Optimizer~~
