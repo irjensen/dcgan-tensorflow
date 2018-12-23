@@ -20,6 +20,6 @@
 - `--checkpoint` Directory to load checkpoint from. **Required**
 - `--output-dir` Directory to save generated images. **Required**
 - `--num_images` Number of images to generate. Default:`1`
-- `--name` name for the generated image(s). Do not include file extension. Default:`image`
+- `--name` Name for the generated image(s). Do not include file extension. Default:`image`
 - `--grid-size` Specify this to generate a square grid of images per file. Default:`1`
 - `--seed` seed for the random generation of z
