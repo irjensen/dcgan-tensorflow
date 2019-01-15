@@ -1,3 +1,4 @@
+- implement adaptive learning rate
 - add support for grayscale images.
 - add ability to resume training from checkpoint
 - address performance issue in generate.py
